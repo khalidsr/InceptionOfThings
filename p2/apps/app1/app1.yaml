@@ -2,10 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: app1
-  labels:
-    app: app1
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: app1
@@ -15,7 +13,28 @@ spec:
         app: app1
     spec:
       containers:
-      - name: nginx
-        image: nginx:1.14.2
+      - name: apache
+        image: httpd:latest
         ports:
         - containerPort: 80
+        volumeMounts:
+        - name: apache-content
+          mountPath: /usr/local/apache2/htdocs/
+      volumes:
+      - name: apache-content
+        configMap:
+          name: configmap_app1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service_app1
+spec:
+  selector:
+    app: app1 
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP
+
