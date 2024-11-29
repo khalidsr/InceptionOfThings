@@ -7,7 +7,7 @@ data:
     <!DOCTYPE html>
     <html>
     <body>
-        <h1>Welcome to Apache on Kubernetes! APP2 </h1>
+        <h1>Welcome to Apache on Kubernetes! app_two </h1>
         <p>This is a simple Apache web server deployment.</p>
     </body>
     </html>

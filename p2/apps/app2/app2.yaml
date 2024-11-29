@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app2
+  name: app_two
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: app2
+      app: app_two
   template:
     metadata:
       labels:
-        app: app2
+        app: app_two
     spec:
       containers:
       - name: apache
@@ -23,18 +23,18 @@ spec:
       volumes:
       - name: apache-content
         configMap:
-          name: configmap_app2
+          name: configmap_app_two
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: service_app2
+  name: service_app_two
 spec:
   selector:
-    app: app2
+    app: app_two
   ports:
   - protocol: TCP
-    port: 8080
+    port: 80
     targetPort: 8080
   type: ClusterIP
 
