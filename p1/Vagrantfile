@@ -1,24 +1,23 @@
 Vagrant.configure("2") do |config|
-  config.vm.box = "ubuntu/trusty64"
-  config.vm.box_version = "20191107.0.0"
-  
-  config.vm.provision "shell", path: "./provision.sh"
-  config.vm.define("aelasri1") do |aelasri1|
-    aelasri1.vm.hostname = "aelasriS"
-    aelasri1.vm.network "private_network", ip: "192.168.56.110"
+  config.vm.box = "debian/bullseye64"
 
-    aelasri1.vm.provider "virtualbox" do |vb|
+  config.vm.define("aelasriS") do |aelasriS|
+    aelasriS.vm.hostname = "aelasriS"
+    aelasriS.vm.network "private_network", ip: "192.168.56.110"
+    aelasriS.vm.provision "shell", path: "./k3s_controller.sh"
+
+    aelasriS.vm.provider "virtualbox" do |vb|
       vb.gui = true
       vb.memory = "4096"
     end
   end
 
-  config.vm.define("aelasri2") do |aelasri2|
-    aelasri2.vm.hostname = "aelasriSW"
-    aelasri2.vm.network "private_network", ip: "192.168.56.111"
-    # aelasri2.vm.provision "shell", path: "provision.sh"
+  config.vm.define("aelasriSW") do |aelasriSW|
+    aelasriSW.vm.hostname = "aelasriSW"
+    aelasriSW.vm.network "private_network", ip: "192.168.56.111"
+    aelasriSW.vm.provision "shell", path: "./k3s_agent.sh"
 
-    aelasri2.vm.provider "virtualbox" do |vb|
+    aelasriSW.vm.provider "virtualbox" do |vb|
       vb.gui = true
       vb.memory = "4096"
     end
