@@ -2,23 +2,23 @@ Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/trusty64"
   config.vm.box_version = "20191107.0.0"
   
-  config.vm.define("z3ln1") do |z3ln1|
-    z3ln1.vm.hostname = "z3lnS"
-    # z3ln1.vm.base_address = "192.168.56.110"
-    z3ln1.vm.network "private_network", ip: "192.168.56.110"
+  config.vm.provision "shell", path: "./provision.sh"
+  config.vm.define("aelasri1") do |aelasri1|
+    aelasri1.vm.hostname = "aelasriS"
+    aelasri1.vm.network "private_network", ip: "192.168.56.110"
 
-    z3ln1.vm.provider "virtualbox" do |vb|
+    aelasri1.vm.provider "virtualbox" do |vb|
       vb.gui = true
       vb.memory = "4096"
     end
   end
 
-  config.vm.define("z3ln2") do |z3ln2|
-    z3ln2.vm.hostname = "z3lnSW"
-    # z3ln2.vm.base_address = "192.168.56.111"
-    z3ln2.vm.network "private_network", ip: "192.168.56.111"
+  config.vm.define("aelasri2") do |aelasri2|
+    aelasri2.vm.hostname = "aelasriSW"
+    aelasri2.vm.network "private_network", ip: "192.168.56.111"
+    # aelasri2.vm.provision "shell", path: "provision.sh"
 
-    z3ln2.vm.provider "virtualbox" do |vb|
+    aelasri2.vm.provider "virtualbox" do |vb|
       vb.gui = true
       vb.memory = "4096"
     end
