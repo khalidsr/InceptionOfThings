@@ -9,25 +9,25 @@ spec:
   rules:
   - http:
       paths:
-      - path: /app_one
+      - path: /app-one
         pathType: Prefix
         backend:
           service:
-            name: service_app_one
+            name: service_app-one
             port:
               number: 80
-      - path: /app_two
+      - path: /app-two
         pathType: Prefix
         backend:
           service:
-            name: service_app_two
+            name: service_app-two
             port:
               number: 80
-      - path: /app_three
+      - path: /app-three
         pathType: Prefix
         backend:
           service:
-            name: service_app_three
+            name: service_app-three
             port:
               number: 80
               

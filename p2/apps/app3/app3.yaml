@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app_three
+  name: app-three
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app_three
+      app: app-three
   template:
     metadata:
       labels:
-        app: app_three
+        app: app-three
     spec:
       containers:
       - name: apache
@@ -23,15 +23,15 @@ spec:
       volumes:
       - name: apache-content
         configMap:
-          name: configmap_app_three
+          name: configmap_app-three
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: service_app_three
+  name: service_app-three
 spec:
   selector:
-    app: app_three
+    app: app-three
   ports:
   - protocol: TCP
     port: 8080

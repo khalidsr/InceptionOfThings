@@ -6,6 +6,13 @@ Vagrant.configure("2") do |config|
   config.vm.define "sriyaniS" do |control|
     control.vm.hostname = "sriyaniS"
     control.vm.network "private_network", ip:"192.168.56.110"
+    control.vm.synced_folder ".", "/vagrant"
+    control.vm.provider "virtualbox" do |v|
+      v.customize ["modifyvm", :id, "--name", "sriyaniS"]
+      end
   end
+  config.vm.provision "shell", inline: <<-SHELL
+    cp -r /vagrant/apps /vagrant/conf /vagrant/ingress.yaml .
+  SHELL
   config.vm.provision "shell", path: "./scripts/server_script.sh"
 end

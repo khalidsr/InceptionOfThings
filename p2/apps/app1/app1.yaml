@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app_one
+  name: app-one
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app_one
+      app: app-one
   template:
     metadata:
       labels:
-        app: app_one
+        app: app-one
     spec:
       containers:
       - name: apache
@@ -23,15 +23,15 @@ spec:
       volumes:
       - name: apache-content
         configMap:
-          name: configmap_app_one
+          name: configmap_app-one
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: service_app_one
+  name: service_app-one
 spec:
   selector:
-    app: app_one 
+    app: app-one 
   ports:
   - protocol: TCP
     port: 80

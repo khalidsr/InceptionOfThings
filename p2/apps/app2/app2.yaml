@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app_two
+  name: app-two
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: app_two
+      app: app-two
   template:
     metadata:
       labels:
-        app: app_two
+        app: app-two
     spec:
       containers:
       - name: apache
@@ -23,15 +23,15 @@ spec:
       volumes:
       - name: apache-content
         configMap:
-          name: configmap_app_two
+          name: configmap_app-two
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: service_app_two
+  name: service_app-two
 spec:
   selector:
-    app: app_two
+    app: app-two
   ports:
   - protocol: TCP
     port: 80
