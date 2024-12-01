@@ -28,7 +28,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: service_app-three
+  name: serviceAppThree
 spec:
   selector:
     app: app-three

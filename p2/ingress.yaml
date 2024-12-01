@@ -13,21 +13,21 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: service_app-one
+            name: serviceAppOne
             port:
               number: 80
       - path: /app-two
         pathType: Prefix
         backend:
           service:
-            name: service_app-two
+            name: serviceAppTwo
             port:
               number: 80
       - path: /app-three
         pathType: Prefix
         backend:
           service:
-            name: service_app-three
+            name: serviceAppThree
             port:
               number: 80
               
