@@ -6,7 +6,7 @@ sudo apt-get update -y
 
 sudo apt-get install curl -y
 
-while [[ ! -e /vagrant/ ]] 
+while [[ ! -e /vagrant/node-token ]] 
 do
 	sleep 1
 done
