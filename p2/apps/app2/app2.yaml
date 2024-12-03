@@ -13,28 +13,28 @@ spec:
         app: app-two
     spec:
       containers:
-      - name: apache
-        image: httpd:latest
+      - name: nginx
+        image: nginx:latest
         ports:
-        - containerPort: 8080
+        - containerPort: 80
         volumeMounts:
-        - name: apache-content
-          mountPath: /usr/local/apache2/htdocs/
+        - name: nginx-2
+          mountPath: /usr/share/nginx/html/ 
       volumes:
-      - name: apache-content
+      - name: nginx-2
         configMap:
-          name: configmap_app-two
+          name: configmap-app-two
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: serviceAppTwo
+  name:  service-app-two
 spec:
   selector:
     app: app-two
   ports:
   - protocol: TCP
     port: 80
-    targetPort: 8080
+    targetPort: 80
   type: ClusterIP
 

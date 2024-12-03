@@ -13,28 +13,29 @@ spec:
         app: app-one
     spec:
       containers:
-      - name: apache
-        image: httpd:latest
+      - name: nginx
+        image: nginx:latest
         ports:
-        - containerPort: 8080
+        - containerPort: 80
         volumeMounts:
-        - name: apache-content
-          mountPath: /usr/local/apache2/htdocs/
+        - name: nginx-1
+          mountPath: /usr/share/nginx/html/ 
       volumes:
-      - name: apache-content
+      - name: nginx-1
         configMap:
-          name: configmap_app-one
+          name: configmap-app-one
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: serviceAppOne
+  name: service-app-one
 spec:
   selector:
     app: app-one 
   ports:
   - protocol: TCP
     port: 80
-    targetPort: 8080
+    targetPort: 80
   type: ClusterIP
+
 
