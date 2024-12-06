@@ -1,0 +1,46 @@
+global:
+  edition: ce
+  hosts:
+    domain: <your-domain>
+    externalIP: <your-cluster-public-ip>
+  kas:
+    enabled: false
+  psql:
+    database: gitlab
+    host: pgsql.postgres.svc.cluster.local
+    password:
+      key: password
+      secret: pgsql-secrets
+    username: postgres
+
+certmanager-issuer:
+  email: <issuer-mail-address>
+
+redis:
+  storageClass: local-storage
+  
+postgresql:
+  install: false
+
+minio:
+  persistence:
+    storageClass: local-storage
+    size: 650Gi
+
+prometheus:
+  server:
+    persistentVolume:
+      size: 100Gi
+      storageClass: local-storage
+gitlab:
+  toolbox:
+    backups:
+      cron:
+        enabled: true
+  gitaly:
+    persistence:
+      size: 600Gi
+      storageClass: local-storage
+
+gitlab-runner:
+  install: false
