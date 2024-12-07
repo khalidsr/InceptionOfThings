@@ -26,6 +26,7 @@ fi
 if ! kubectl get namespace gitlab &> /dev/null; then
     echo -e "Namespace 'gitlab' does not exist. Creating..."
     sudo kubectl create namespace gitlab
+    # helm upgrade --install gitlab gitlab/gitlab --namespace gitlab --values ../confs/values.yaml
     # sudo kubectl apply -f ./apps/app.yaml -n gitlab
 else
     echo -e "Namespace 'gitlab' already exists."

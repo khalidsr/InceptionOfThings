@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 
+    repoURL:  http://gitlab.gitlab.io/root/sriyani.git
     targetRevision: HEAD
     path: .
   destination:

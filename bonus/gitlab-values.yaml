@@ -10,10 +10,10 @@ global:
   ingress:
     configureCertmanager: false
     class: "nginx"
-    ssl: false
   hosts:
-    domain: local
-    externalIP: 192.168.99.100
+    domain: gitlab.io
+    externalIP: 127.0.0.1
+    https: false
   # Disable Rails bootsnap cache (temporary)
   rails:
     bootsnap:

@@ -49,7 +49,7 @@ fi
 echo "Adding GitLab Helm repository..."
 helm repo add gitlab https://charts.gitlab.io/
 helm repo update
-helm show values gitlab/gitlab > gitlab-values.yaml
+# helm show values gitlab/gitlab > gitlab-values.yaml
 
 
 
