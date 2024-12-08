@@ -19,14 +19,14 @@ spec:
         - containerPort: 80
         volumeMounts:
         - name: app2-html
-          mountPath: /usr/share/nginx/html
+          mountPath: /usr/share/nginx/html/index.html
         - name: app2-conf
           mountPath: /etc/nginx/conf.d/default.conf
           #subPath: default.conf
       volumes:
       - name: app2-html
         hostPath:
-          path: /vagrant/apps/configure/app2
+          path: /vagrant/apps/configure/app2/index.html
       - name: app2-conf
         hostPath:
           path: /vagrant/apps/configure/app2/default.conf
