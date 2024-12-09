@@ -1,0 +1,18 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "debian/bookworm64"
+
+  config.vm.define("aelasriS") do |aelasriS|
+    aelasriS.vm.hostname = "aelasriS"
+    aelasriS.vm.network "private_network", ip: "192.168.56.110"
+    config.vm.synced_folder "./app1/", "/vagrant/app1"
+    config.vm.synced_folder "./app2/", "/vagrant/app2"
+    config.vm.synced_folder "./app3/", "/vagrant/app3"
+    aelasriS.vm.provision "shell", path: "./k3s_setup.sh"
+
+    aelasriS.vm.provider "virtualbox" do |vb|
+      vb.name = "aelasriS"
+      vb.memory = "1024"
+      vb.cpus = 1
+    end
+  end
+end
