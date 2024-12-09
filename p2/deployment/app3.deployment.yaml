@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app3
+  name: app-three
 spec:
   replicas: 1
   selector:
@@ -13,7 +13,7 @@ spec:
         app: app3
     spec:
       containers:
-      - name: nginx
+      - name: app3-service
         image: nginx
         ports:
         - containerPort: 80
