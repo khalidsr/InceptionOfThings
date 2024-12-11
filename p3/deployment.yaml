@@ -27,6 +27,26 @@ spec:
     app: my-app
   ports:
     - protocol: TCP
-      port: 80
+      port: 8888
       targetPort: 8888
-  type: ClusterIP
+  type: LoadBalancer
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/khalidsr/sriyani'
+    targetRevision: main
+    path: ./
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
