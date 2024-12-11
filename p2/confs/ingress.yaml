@@ -5,7 +5,6 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  # ingressClassName: nginx
   rules:
   - host: app1.com
     http:
@@ -27,7 +26,6 @@ spec:
             name: app-two
             port:
               number: 80
-  # - host: app3.com
   - http:
       paths:
       - path: /
