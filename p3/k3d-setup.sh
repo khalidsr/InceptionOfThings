@@ -1,26 +1,56 @@
 #!/bin/bash
 set -e
 
-sudo apt-get update
-sudo apt-get install ca-certificates curl
-
-curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | sh
+sudo apt-get update -y
+sudo apt-get install -y ca-certificates curl gnupg lsb-release apt-transport-https
 
 
-# Add Docker's official GPG key:
-sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-sudo chmod a+r /etc/apt/keyrings/docker.asc
+# Install Docker
+# sudo install -m 0755 -d /etc/apt/keyrings
+# curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+# sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
-# Add the repository to Apt sources:
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt-get update
+# echo \
+#   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+#   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+# sudo apt-get update -y
+# sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-k3d cluster create ArgoCD
+# sudo systemctl enable docker
+# sudo systemctl start docker
+# sudo docker --version
+
+
+# Install k3d
+curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+
+echo "Creating k3d cluster 'dev'..."
+if k3d cluster list | grep -q "dev"; then
+    echo "Cluster 'dev' already exists. Deleting it..."
+    k3d cluster delete dev
+fi
+
+echo "Creating k3d cluster 'dev'..."
 k3d cluster create dev
+
+# Configure kubectl for the k3d cluster
+export KUBECONFIG=$(k3d kubeconfig write dev)
+
 kubectl get nodes
+
+# Install Argo CD in 'argocd' Namespace
+echo "Installing Argo CD..."
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+# Wait for Argo CD Pods to Start
+echo "Waiting for Argo CD to be ready..."
+kubectl wait --for=condition=available --timeout=600s deployment/argocd-server -n argocd
+
+echo "Applying deployment.yaml..."
+kubectl create namespace dev
+kubectl apply -n dev -f deployment.yaml
+
+kubectl get all -n dev
+echo "Script execution completed successfully!"
