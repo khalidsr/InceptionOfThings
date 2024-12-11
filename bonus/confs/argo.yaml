@@ -6,7 +6,8 @@ metadata:
 spec:
   project: default
   source:
-    repoURL:  http://gitlab.gitlab.io/root/sriyani.git
+    repoURL: http://10.0.2.15/root/sriyani.git
+
     targetRevision: HEAD
     path: .
   destination:
@@ -16,6 +17,7 @@ spec:
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
+
     automated:
       selfHeal: true
       prune: true
