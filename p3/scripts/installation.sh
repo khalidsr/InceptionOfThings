@@ -24,3 +24,14 @@ sudo wget -q -O - https://raw.githubusercontent.com/rancher/k3d/main/install.sh 
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 chmod +x kubectl
 sudo mv kubectl /usr/local/bin/
+
+# Create a k3d cluster
+echo "Creating k3d cluster..."
+sudo k3d cluster create dev
+
+# Verify cluster creation
+echo "Verifying k3d cluster..."
+#sudo kubectl config use-context k3d-dev
+sudo kubectl get nodes
+
+echo "installation completed successfully!"

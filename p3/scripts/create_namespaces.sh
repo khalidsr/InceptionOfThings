@@ -12,4 +12,5 @@ sudo kubectl -n argocd patch svc argocd-server -n argocd 8080:443
 #create the dev namespace
 sudo kubectl create namespace dev
 
-
+#apply the service configuration
+sudo kubectl apply -f ../app/deploy.yaml -n dev

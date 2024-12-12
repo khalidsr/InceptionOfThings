@@ -40,9 +40,15 @@ echo_success "k3s directories cleaned up."
 echo_info "Uninstalling Docker..."
 sudo systemctl stop docker
 sudo systemctl stop docker.socket
+sudo apt-get purge -y docker-engine docker docker.io docker-ce docker-ce-cli
+sudo apt-get autoremove -y --purge docker-engine docker docker.io docker-ce 
 sudo apt-get purge -y docker-engine docker docker.io containerd runc
 sudo rm -rf /var/lib/docker /etc/docker
-sudo rm -f /usr/local/bin/docker /usr/local/bin/docker-compose
+sudo rm -rf /usr/local/bin/docker /usr/local/bin/docker-compose
+sudo rm -rf /var/lib/docker /etc/docker
+sudo rm -rf /etc/apparmor.d/docker
+sudo groupdel docker
+sudo rm -rf /var/run/docker.sock
 echo_success "Docker uninstalled."
 
 # Cleanup unused packages and disk space
