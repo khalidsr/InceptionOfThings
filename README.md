@@ -11,7 +11,6 @@
  <h4>◦ K3s and Vagrant:</h4>
 <p>Use of Vagrant in combination with k3s to create a Kubernetes cluster across two virtual machines. One machine is configured as the master server, while the other serves as a worker node. Both machines are provisioned automatically through a script, which streamlines the setup process and ensures consistency across environments. This setup allows for a lightweight, efficient Kubernetes cluster, ideal for development and testing purposes.</p>
 
-
   ---
 <br/>
  <h4>◦ K3s and Ingress:</h4>
