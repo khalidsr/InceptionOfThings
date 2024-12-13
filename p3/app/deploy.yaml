@@ -29,6 +29,6 @@ spec:
     app : wil42
   ports:
     - protocol: TCP
-      port: 80
+      port: 8888
       targetPort: 8888
   type: LoadBalancer
