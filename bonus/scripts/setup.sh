@@ -1,53 +1,54 @@
 #!/bin/bash
-
 set -e
 
-# Install Docker
-echo "Installing Docker..."
+# Variables
+GITLAB_URL="http://gitlab.local"
+
+echo "Starting environment setup..."
+
+# Step 1: Update system and install dependencies
+echo "Updating system and installing required dependencies..."
 sudo apt-get update -y
-sudo apt-get install -y docker.io
+sudo apt-get install -y curl openssh-server ca-certificates postfix gnupg lsb-release apt-transport-https
 
-# Install K3d
-echo "Installing K3d..."
+# Step 2: Configure Postfix for email notifications
+echo "Configuring Postfix for email notifications..."
+sudo debconf-set-selections <<< "postfix postfix/mailname string gitlab.local"
+sudo debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Site'"
+sudo systemctl restart postfix
+echo "Postfix configured successfully."
+
+# Step 3: Install GitLab
+echo "Adding GitLab Omnibus package repository..."
+curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | sudo bash
+echo "Installing GitLab Community Edition..."
+sudo EXTERNAL_URL="$GITLAB_URL" apt-get install -y gitlab-ee
+sudo gitlab-ctl reconfigure
+echo "GitLab installed and configured at $GITLAB_URL."
+
+# Step 4: Install Docker
+echo "Installing Docker..."
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update -y
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo systemctl enable docker
+sudo systemctl start docker
+echo "Docker installed successfully. Version:"
+sudo docker --version
+
+# Step 5: Install Kubernetes (K3d) and K3s
+echo "Installing Kubernetes tools: K3d and K3s..."
+curl -sfL https://get.k3s.io | sh -
 curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+echo "Creating a Kubernetes cluster with K3d..."
+sudo k3d cluster create dev
+export KUBECONFIG=$(k3d kubeconfig write dev)
+echo "K3d cluster created successfully."
 
-#k3s installation
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-chmod +x kubectl
-sudo mv kubectl /usr/local/bin/
-
-# Install Helm
-echo "Installing Helm..."
-curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-
-# Create K3d cluster
-echo "Creating Kubernetes cluster with K3d..."
-sudo k3d cluster create gitlab-cluster --api-port 6443 --servers 1 --agents 2 --port 80:80@loadbalancer --port 443:443@loadbalancer
-
-# Verify cluster
-echo "Verifying Kubernetes cluster..."
-sudo kubectl get nodes
-
-# Create namespace for GitLab
-echo "Creating namespace for GitLab..."
-sudo kubectl create namespace gitlab
-
-# Add Helm repository for GitLab
-echo "Adding GitLab Helm repository..."
-sudo helm repo add gitlab https://charts.gitlab.io/
-sudo helm repo update
-
-# Install GitLab using Helm
-#echo "Installing GitLab..."
-#sudo helm install gitlab gitlab/gitlab \
-#  --namespace gitlab \
-#  --set global.hosts.domain=local \
-#  --set global.hosts.externalIP=127.0.0.1 \
-#  --set gitlab-runner.install=false
-
-# Wait for GitLab to be ready
-#echo "Waiting for GitLab to become ready. This may take a while..."
-#sudo kubectl rollout status deployment/gitlab-webservice-default -n gitlab
-
-echo -e "\nGitLab setup completed successfully."
+echo "Environment setup completed successfully!"
 

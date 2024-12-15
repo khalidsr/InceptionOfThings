@@ -11,7 +11,9 @@ spec:
     repoURL: https://gitlab.local/root/mbadaoui.git
     path: .
     targetRevision: HEAD
-  project: default
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: dev
   syncPolicy:
     automated:
       prune: true
