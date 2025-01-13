@@ -10,4 +10,6 @@ sudo k3s kubectl get nodes
 sudo kubectl apply -f /vagrant/app1/deployment.yaml
 sudo kubectl apply -f /vagrant/app2/deployment.yaml
 sudo kubectl apply -f /vagrant/app3/deployment.yaml
+
+sudo kubectl apply -f /vagrant/confs/ingress.yaml
 echo "Deployment completed."
