@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-app-one
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <body>
+        <h1>Welcome to Nginx on Kubernetes! app-One </h1>
+        <p>This is a simple Nginx web server deployment.</p>
+    </body>
+    </html>
