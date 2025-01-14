@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-three
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-three
+  template:
+    metadata:
+      labels:
+        app: app-three
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: nginx-3
+          mountPath: /usr/share/nginx/html/ 
+      volumes:
+      - name: nginx-3
+        configMap:
+          name: configmap-app-three
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name:  service-app-three
+spec:
+  selector:
+    app: app-three
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP

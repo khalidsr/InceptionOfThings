@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-app-two
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <body>
+        <h1>Welcome to nginx on Kubernetes! app-Two </h1>
+        <p>This is a simple nginx web server deployment.</p>
+    </body>
+    </html>
