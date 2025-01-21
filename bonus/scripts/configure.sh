@@ -17,7 +17,7 @@ echo "Argo CD installed and ready in the 'argocd' namespace."
 # Step 3: Deploy application manifests
 echo "Applying application deployment configuration..."
 sudo kubectl apply -n dev -f ../app/deploy.yaml
-sudo kubectl apply -n dev -f ../confs/argocd.yaml
+sudo kubectl apply -n argocd -f ../confs/argocd.yaml
 echo "Application successfully deployed. Fetching deployment details..."
 sudo kubectl get all -n dev
 

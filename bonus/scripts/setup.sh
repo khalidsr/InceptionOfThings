@@ -10,7 +10,6 @@ echo "Starting environment setup..."
 echo "Updating system and installing required dependencies..."
 sudo apt-get update -y
 sudo apt-get install -y curl openssh-server ca-certificates postfix gnupg lsb-release apt-transport-https
-
 # Step 2: Configure Postfix for email notifications
 echo "Configuring Postfix for email notifications..."
 sudo debconf-set-selections <<< "postfix postfix/mailname string gitlab.local"
