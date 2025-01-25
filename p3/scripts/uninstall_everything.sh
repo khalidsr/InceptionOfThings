@@ -31,6 +31,9 @@ else
     echo_warn "k3s uninstall script not found. Skipping..."
 fi
 
+# Remove kube folder that contains kubectl configuration
+sudo rm -rf ~/.kube
+
 # Remove k3s directories
 echo_info "Cleaning up k3s directories..."
 sudo rm -rf /etc/rancher /var/lib/rancher /var/lib/kubelet
