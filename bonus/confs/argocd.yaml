@@ -6,8 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: http://10.0.2.15/root/sriyani.git
-
+    repoURL: https://10.0.2.15/root/mbadaoui.git
     targetRevision: HEAD
     path: .
   destination:
