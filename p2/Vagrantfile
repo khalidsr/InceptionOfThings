@@ -14,7 +14,7 @@ Vagrant.configure("2") do |config|
       end
   end
   config.vm.provision "shell", inline: <<-SHELL
-    cp -r /vagrant/apps /vagrant/conf /vagrant/confs/ingress.yaml .
+    cp -r /vagrant/apps /vagrant/confs /vagrant/confs/ingress.yaml .
   SHELL
   config.vm.provision "shell", path: "./scripts/server_script.sh"
 end
