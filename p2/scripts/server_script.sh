@@ -21,9 +21,9 @@ echo "Applying Kubernetes manifests..."
 kubectl apply -f ./confs/configmap_app1.yaml --validate=false
 kubectl apply -f ./confs/configmap_app2.yaml --validate=false
 kubectl apply -f ./confs/configmap_app3.yaml --validate=false
-kubectl apply -f ./apps/app1/app1.yaml --validate=false
-kubectl apply -f ./apps/app2/app2.yaml --validate=false
-kubectl apply -f ./apps/app3/app3.yaml --validate=false
+kubectl apply -f ./confs/apps/app1/app1.yaml --validate=false
+kubectl apply -f ./confs/apps/app2/app2.yaml --validate=false
+kubectl apply -f ./confs/apps/app3/app3.yaml --validate=false
 kubectl apply -f ./confs/ingress.yaml --validate=false
 
 echo "Deployment completed."

@@ -1,42 +1,37 @@
 #!/bin/bash
 
-set -e
+# Variables
+GITLAB_URL="http://gitlab.local:8090"
 
-echo "Starting GitLab local installation..."
-
-# Update and install dependencies
-echo "Updating system and installing dependencies..."
+# Update and install necessary packages
 sudo apt-get update -y
-sudo apt-get install -y curl openssh-server ca-certificates tzdata perl
+sudo apt-get install -y curl openssh-server ca-certificates postfix
 
-# Install Postfix for email notifications (optional but recommended)
-echo "Installing Postfix (for email notifications)..."
-sudo apt-get install -y postfix
-sudo systemctl enable postfix
-sudo systemctl start postfix
+# Configure Postfix
+echo "Configuring Postfix..."
+sudo debconf-set-selections <<< "postfix postfix/mailname string gitlab.local"
+sudo debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Site'"
 
-# Add the GitLab package repository
-echo "Adding GitLab package repository..."
-curl -fsSL https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | sudo bash
+# Download and install GitLab Omnibus package
+echo "Downloading GitLab Omnibus package..."
+curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | sudo bash
 
-# Install GitLab Community Edition
-echo "Installing GitLab Community Edition..."
-sudo apt-get install -y gitlab-ce
+echo "Installing GitLab..."
+sudo EXTERNAL_URL="$GITLAB_URL" apt-get install -y gitlab-ee
 
-# Configure GitLab
-echo "Configuring GitLab..."
+# Reconfigure GitLab to apply settings
 sudo gitlab-ctl reconfigure
 
-# Start GitLab services
-echo "Starting GitLab services..."
-sudo gitlab-ctl start
-
 # Check GitLab status
-echo "Checking GitLab status..."
 sudo gitlab-ctl status
 
-# Output GitLab access details
-echo "GitLab installation completed successfully!"
-echo "You can now access GitLab at: http://<your-server-ip> (or http://localhost if installed locally)."
-echo "Default username: root"
-echo "To retrieve the default root password, check: /etc/gitlab/initial_root_password"
+# Additional packages (if needed)
+sudo apt-get update -y
+sudo apt-get install -y ca-certificates curl gnupg lsb-release apt-transport-https
+
+# Add gitlab.local to /etc/hosts if not already present
+if ! grep -q "gitlab.local" /etc/hosts; then
+    echo "127.0.0.1 gitlab.local" | sudo tee -a /etc/hosts
+fi
+
+echo "GitLab installation and configuration complete. Access it at $GITLAB_URL"
