@@ -9,7 +9,7 @@ sudo kubectl create namespace dev
 sudo kubectl create namespace gitlab
 
 #apply the service configuration
-sudo kubectl apply -f ../confs/app/app.yaml -n dev
+sudo kubectl apply -f ./confs/app/app.yaml -n dev
 
 #install the argocd
 sudo kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
@@ -17,6 +17,6 @@ sudo kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-
 #expose the argocd server
 
 sleep 10
-sudo kubectl port-forward svc/argocd-server -n argocd 8080:443
+sudo kubectl port-forward svc/argocd-server -n argocd 443:443
 
 # sudo cat /etc/gitlab/initial_root_password 

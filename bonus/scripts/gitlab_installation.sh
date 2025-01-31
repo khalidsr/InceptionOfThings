@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Variables
-GITLAB_URL="http://gitlab.local:8090"
+GITLAB_URL="http://gitlab.local"
 
 # Update and install necessary packages
 sudo apt-get update -y
