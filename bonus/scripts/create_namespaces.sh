@@ -16,7 +16,7 @@ sudo kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-
 
 #expose the argocd server
 
-sleep 10
+sleep 30
 sudo kubectl port-forward svc/argocd-server -n argocd 443:443
 
 # sudo cat /etc/gitlab/initial_root_password 
