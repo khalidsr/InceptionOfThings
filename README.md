@@ -1,5 +1,5 @@
 <div align="center">
-<h3 >K3d as Cluster Manger ☸️🐋</h3>
+<h3 >☸️🐋 K3d as Cluster Manger</h3>
 <h6>To run lightweight k3s Kubernetes clusters for orchestrating containerized applications.</h6>
 
 <img src="https://i.giphy.com/3o8dFCeY6O5NyLVDYQ.webp" alt="img" />
